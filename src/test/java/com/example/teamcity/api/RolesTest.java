@@ -72,18 +72,12 @@ public class RolesTest extends BaseApiTest {
 
     @Test
     public void projectAdminShouldNotHaveRightsToCreateBuildConfigToAnotherProjectTest() {
-        //generate 2 test data
         var firstTestData = testDataStorage.addTestData();
         var secondTestData = testDataStorage.addTestData();
 
-//        var firstUserRequest = new CheckedRequests(Specifications.getSpec().authSpec(firstTestData.getUser()));
-//        var secondUserRequest = new CheckedRequests(Specifications.getSpec().authSpec(secondTestData.getUser()));
-
-        //create 2 projects
         checkedWithSuperUser.getProjectRequest().create(firstTestData.getProject());
         checkedWithSuperUser.getProjectRequest().create(secondTestData.getProject());
 
-        //set role to first project
         firstTestData.getUser().setRoles(TestDataGenerator.generateRoles(Role.PROJECT_ADMIN, "p:" +
                 firstTestData.getProject().getId()));
 
