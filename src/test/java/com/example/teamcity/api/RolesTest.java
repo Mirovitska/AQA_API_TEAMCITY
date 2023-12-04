@@ -55,20 +55,15 @@ public class RolesTest extends BaseApiTest {
 
     @Test
     public void projectAdminShouldHaveRightsToCreateBuildConfigToHisProjectTest() {
-        //generate test data
         var testData = testDataStorage.addTestData();
 
-        //create project
         checkedWithSuperUser.getProjectRequest().create(testData.getProject());
 
-        //set role to project
         testData.getUser().setRoles(TestDataGenerator.generateRoles
                 (Role.PROJECT_ADMIN, "p:" + testData.getProject().getId()));
 
-        //create user
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
 
-        //create build config to project by user
         var buildConfig = new CheckedBuildConfig(Specifications.getSpec().authSpec(testData.getUser()))
                 .create(testData.getBuildType());
 
