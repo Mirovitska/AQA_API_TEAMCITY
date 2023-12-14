@@ -17,6 +17,7 @@ import java.util.Map;
 public class BaseUiTest extends BaseTest {
     @BeforeSuite
     public void setupUiTests() {
+
         Configuration.baseUrl = "http://" + Config.getProperty("host");
         Configuration.remote = Config.getProperty("remote");
 
