@@ -10,37 +10,42 @@ import io.restassured.specification.RequestSpecification;
 
 public class Specifications {
     private static Specifications spec;
-    private Specifications(){}
 
-    public static Specifications getSpec(){
-        if (spec == null) {
-            spec = new Specifications();
-        } return spec;
+    private Specifications() {
     }
 
-    private RequestSpecBuilder reqBuilder(){
+    public static Specifications getSpec() {
+        if (spec == null) {
+            spec = new Specifications();
+        }
+        return spec;
+    }
+
+    private RequestSpecBuilder reqBuilder() {
         var requestBuilder = new RequestSpecBuilder();
-        requestBuilder.setBaseUri("http://" + Config.getProperty( "host"));
+        requestBuilder.setBaseUri("http://" + Config.getProperty("host"));
         requestBuilder.addFilter(new RequestLoggingFilter());
         requestBuilder.addFilter(new ResponseLoggingFilter());
         requestBuilder.setContentType(ContentType.JSON);
         requestBuilder.setAccept(ContentType.JSON);
         return requestBuilder;
     }
-    public RequestSpecification unauthSpec(){
+
+    public RequestSpecification unauthSpec() {
         var requestBuilder = reqBuilder();
         return requestBuilder.build();
     }
 
-    public RequestSpecification authSpec(User user){
-            var requestBuilder = reqBuilder();
-            requestBuilder.setBaseUri("http://" + user.getUsername() + ":" + user.getPassword() + "@" + Config.getProperty("host"));
-            return requestBuilder.build();
+    public RequestSpecification authSpec(User user) {
+        var requestBuilder = reqBuilder();
+        requestBuilder.setBaseUri("http://" + user.getUsername() + ":" + user.getPassword() + "@" + Config.getProperty("host"));
+        return requestBuilder.build();
 
     }
-    public RequestSpecification superUserSpec(){
+
+    public RequestSpecification superUserSpec() {
         var requestBuilder = reqBuilder();
-        requestBuilder.setBaseUri("http://:"+ Config.getProperty("superUserToken") + "@" + Config.getProperty("host"));
+        requestBuilder.setBaseUri("http://:" + Config.getProperty("superUserToken") + "@" + Config.getProperty("host"));
         return requestBuilder.build();
     }
 }

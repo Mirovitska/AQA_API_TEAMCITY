@@ -12,6 +12,7 @@ public class UncheckedBuildQueue extends Request implements CrudInterface {
     public UncheckedBuildQueue(RequestSpecification spec) {
         super(spec);
     }
+
     private static final String BUILD_QUEUE_ENDPOINT = "/app/rest/buildQueue";
 
     @Override

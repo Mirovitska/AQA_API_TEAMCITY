@@ -5,11 +5,11 @@ public enum Role {
     PROJECT_VIEWER("PROJECT_VIEWER"),
     PROJECT_DEVELOPER("PROJECT_DEVELOPER"),
     PROJECT_ADMIN("PROJECT_ADMIN"),
-    AGENT_MANAGER("AGENT_MANAGER");
-    ;
+    AGENT_MANAGER("AGENT_MANAGER");;
 
     private String text;
-    Role(String text){
+
+    Role(String text) {
         this.text = text;
     }
 
