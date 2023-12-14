@@ -38,6 +38,6 @@ public class UncheckedUser extends Request implements CrudInterface {
     public Response delete(String id) {
         return
                 given().spec(spec)
-                .delete(USER_ENDPOINT + "/username:"+ id);
+                        .delete(USER_ENDPOINT + "/username:" + id);
     }
 }

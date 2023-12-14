@@ -7,12 +7,14 @@ import org.apache.http.HttpStatus;
 
 public class AuthRequest {
 
-    private User user;
-    public AuthRequest(User user){
+    private final User user;
+
+    public AuthRequest(User user) {
         this.user = user;
     }
-    public String getCsrfToken(){
-       return RestAssured
+
+    public String getCsrfToken() {
+        return RestAssured
                 .given()
                 .spec(Specifications.getSpec().authSpec(user))
                 .get("/authenticationTest.html?csrf")

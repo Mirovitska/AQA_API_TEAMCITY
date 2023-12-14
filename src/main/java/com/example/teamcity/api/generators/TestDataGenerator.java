@@ -13,6 +13,7 @@ import com.example.teamcity.api.models.Templates;
 import com.example.teamcity.api.models.User;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TestDataGenerator {
@@ -22,7 +23,7 @@ public class TestDataGenerator {
                 .password(RandomData.getString())
                 .email(RandomData.getString() + "@gmail.com")
                 .roles(Roles.builder()
-                        .role(Arrays.asList(Role.builder()
+                        .role(Collections.singletonList(Role.builder()
                                 .roleId("SYSTEM_ADMIN")
                                 .scope("g")
                                 .build()))
@@ -73,7 +74,7 @@ public class TestDataGenerator {
 
     public static Roles generateRoles(com.example.teamcity.api.enums.Role role, String scope) {
         return Roles.builder().role
-                (Arrays.asList(Role.builder().roleId(role.getText())
+                (Collections.singletonList(Role.builder().roleId(role.getText())
                         .scope(scope).build())).build();
 
     }

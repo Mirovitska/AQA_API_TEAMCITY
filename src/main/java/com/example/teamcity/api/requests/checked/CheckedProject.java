@@ -4,8 +4,8 @@ import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
 import com.example.teamcity.api.requests.unchecked.UncheckedProject;
-import org.apache.http.HttpStatus;
 import io.restassured.specification.RequestSpecification;
+import org.apache.http.HttpStatus;
 
 
 public class CheckedProject extends Request implements CrudInterface {

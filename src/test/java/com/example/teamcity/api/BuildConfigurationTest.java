@@ -7,19 +7,16 @@ import com.example.teamcity.api.specification.Specifications;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-public class BuildConfigurationTest extends BaseApiTest{
+public class BuildConfigurationTest extends BaseApiTest {
 
 
     @Test
-    public void buildConfigurationTest(){
+    public void buildConfigurationTest() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
-
         checkedWithSuperUser.getProjectRequest().create(testData.getProject());
-
         testData.getUser().setRoles(TestDataGenerator.generateRoles(Role.PROJECT_ADMIN, "p:" +
                 testData.getProject().getId()));
-
         new UncheckedBuildConfig(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getBuildType())

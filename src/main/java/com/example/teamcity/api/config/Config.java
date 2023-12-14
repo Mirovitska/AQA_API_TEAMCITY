@@ -8,18 +8,22 @@ public class Config {
     private static Config config;
     private final static String CONFIG_PROPERTIES = "config.properties";
     private Properties properties;
+
     public Config() {
         properties = new Properties();
         loadProperties(CONFIG_PROPERTIES);
     }
-    private static Config getConfig(){
-        if(config == null){
+
+    private static Config getConfig() {
+        if (config == null) {
             config = new Config();
-        } return config;
+        }
+        return config;
     }
-    public void loadProperties(String fileName){
-        try(InputStream stream = Config.class.getClassLoader().getResourceAsStream(fileName)){
-            if(stream == null){
+
+    public void loadProperties(String fileName) {
+        try (InputStream stream = Config.class.getClassLoader().getResourceAsStream(fileName)) {
+            if (stream == null) {
                 System.err.println("File not found" + fileName);
             }
             properties.load(stream);
@@ -28,7 +32,8 @@ public class Config {
             throw new RuntimeException(e);
         }
     }
-    public static String getProperty(String key){
+
+    public static String getProperty(String key) {
         return getConfig().properties.getProperty(key);
     }
 }

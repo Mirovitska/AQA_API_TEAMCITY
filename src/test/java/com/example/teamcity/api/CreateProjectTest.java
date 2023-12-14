@@ -6,7 +6,10 @@ import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.requests.unchecked.UncheckedProject;
 import com.example.teamcity.api.specification.Specifications;
 import org.apache.http.HttpStatus;
+import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
+
+import static org.hamcrest.Matchers.containsString;
 
 public class CreateProjectTest extends BaseApiTest {
 
@@ -16,7 +19,6 @@ public class CreateProjectTest extends BaseApiTest {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var project = checkedWithSuperUser.getProjectRequest().create(testData.getProject());
-
         softy.assertThat(project.getId()).isEqualTo(testData.getProject().getId());
     }
 
@@ -25,7 +27,6 @@ public class CreateProjectTest extends BaseApiTest {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var project = checkedWithSuperUser.getProjectRequest().create(testData.getProject());
-
         softy.assertThat(project.getParentProjectId()).isEqualTo(testData.getProject().getParentProject().getLocator());
     }
 
@@ -41,10 +42,11 @@ public class CreateProjectTest extends BaseApiTest {
     @Test
     public void createProjectWithSpecialSymbolsAndNumbersInName() {
         var testData = testDataStorage.addTestData();
+        var specialSymbolsAndNumbers = RandomData.getStringWithSpecialSymbolsAndNumbers();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
                 .id(RandomData.getString())
-                .name(RandomData.getStringWithSpecialSymbolsAndNumbers())
+                .name(specialSymbolsAndNumbers)
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new CheckedProject(Specifications.getSpec()
@@ -54,11 +56,12 @@ public class CreateProjectTest extends BaseApiTest {
 
     @Test
     public void createProjectWithReallyLongOfName() {
+        var longName = RandomData.getStringExactCountOfChars(10000);
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
                 .id(RandomData.getString())
-                .name(RandomData.getStringExactCountOfChars(10000))
+                .name(longName)
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new CheckedProject(Specifications.getSpec()
@@ -69,10 +72,11 @@ public class CreateProjectTest extends BaseApiTest {
 
     @Test
     public void createProjectWithMinIdLength() {
+        var oneSymbol = RandomData.getStringExactCountOfChars(1);
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
-                .id("b")
+                .id(oneSymbol)
                 .name(RandomData.getString())
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
@@ -83,10 +87,11 @@ public class CreateProjectTest extends BaseApiTest {
 
     @Test
     public void createProjectWithMaxIdLength() {
+        var maxIdLength = RandomData.getStringExactCountOfChars(222);
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
-                .id(RandomData.getStringExactCountOfChars(222))
+                .id(maxIdLength)
                 .name(RandomData.getString())
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
@@ -97,12 +102,13 @@ public class CreateProjectTest extends BaseApiTest {
 
     @Test
     public void createProjectWithoutParentProjectId() {
+        var emptyString = "";
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
                 .id(RandomData.getString())
                 .name(RandomData.getString())
-                .parentProjectId("")
+                .parentProjectId(emptyString)
                 .build();
         new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
@@ -110,126 +116,144 @@ public class CreateProjectTest extends BaseApiTest {
     }
 
     //Negative cases
-
     @Test
     public void createProjectWithSpecialSymbolsAndNumbersInID() {
+        var stringWithSpecSymbols = RandomData.getStringWithSpecialSymbolsAndNumbers();
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
-                .id(RandomData.getStringWithSpecialSymbolsAndNumbers())
+                .id(stringWithSpecSymbols)
                 .name(RandomData.getString())
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                .body(containsString("ID should start with a latin letter and contain only latin letters, digits and underscores (at most 225 characters)"));
     }
 
     @Test
     public void createProjectWithEmptyId() {
+        var emptyString = "";
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
-                .id("")
+                .id(emptyString)
                 .name(RandomData.getString())
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-
+                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                .body(containsString("Project ID must not be empty"));
     }
 
     @Test
     public void createProjectWithNameWhatAlreadyExist() {
+        var nameProject = "Test";
         var testData = testDataStorage.addTestData();
         var firstProject = Project.builder()
                 .id(RandomData.getString())
-                .name("Test")
+                .name(nameProject)
                 .build();
         var secondProject = Project.builder()
                 .id(RandomData.getString())
-                .name("Test")
+                .name(nameProject)
                 .build();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         new CheckedProject(Specifications.getSpec().authSpec(testData.getUser()))
                 .create(firstProject);
         new UncheckedProject(Specifications.getSpec().authSpec(testData.getUser()))
-                .create(secondProject).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
+                .create(secondProject).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(containsString("Project with this name already exists"));
+
     }
 
     @Test
     public void createProjectWithIdProjectsStartWithNumber() {
+        var stringStartsWithNumber = "1" + RandomData.getString();
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
-                .id("1" + RandomData.getString())
+                .id(stringStartsWithNumber)
                 .name(RandomData.getString())
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                .body(Matchers.containsString("invalid: starts with non-letter character"));
+
     }
 
     @Test
     public void createProjectWithIdProjectsStartWithSpecialSymbol() {
+        var stringStartsWithNumber = RandomData.getSpecialSymbol() + RandomData.getString();
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
-                .id(RandomData.getSpecialSymbol() + RandomData.getString())
+                .id(stringStartsWithNumber)
                 .name(RandomData.getString())
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                .body(containsString("invalid: starts with non-letter character"));
     }
 
     @Test
     public void createProjectWithIdWithInvalidCharacters() {
+        var invalidCharacters = "#$!";
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
-                .id("#$!")
+                .id(invalidCharacters)
                 .name(RandomData.getString())
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                .create(proj).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                .body(containsString("ID should start with a latin letter and contain only latin letters," +
+                        " digits and underscores (at most 225 characters)"));
     }
 
     @Test
     public void createProjectWithEmptyName() {
+        var emptyString = "";
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         var proj = Project.builder()
                 .id(RandomData.getString())
-                .name("")
+                .name(emptyString)
                 .parentProjectId(testData.getProject().getParentProject().getParentProjectId())
                 .build();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(proj).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
+                .create(proj).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(containsString("Project name cannot be empty."));
+
     }
 
     @Test
     public void createProjectWithAlreadyExistingId() {
+        var testID = "TestID";
         var testData = testDataStorage.addTestData();
         var firstProject = Project.builder()
-                .id("TestID")
+                .id(testID)
                 .name(RandomData.getString())
                 .build();
         var secondProject = Project.builder()
-                .id("TestID")
+                .id(testID)
                 .name(RandomData.getString())
                 .build();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
         new CheckedProject(Specifications.getSpec().authSpec(testData.getUser()))
                 .create(firstProject);
         new UncheckedProject(Specifications.getSpec().authSpec(testData.getUser()))
-                .create(secondProject).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
+                .create(secondProject).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(containsString("Project ID \"TestID\" is already used by another project"));
     }
 
 }

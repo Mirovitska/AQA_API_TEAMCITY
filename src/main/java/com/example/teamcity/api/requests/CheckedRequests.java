@@ -8,11 +8,11 @@ import lombok.Getter;
 
 @Getter
 public class CheckedRequests {
+    private final CheckedUser userRequest;
+    private final CheckedProject projectRequest;
+    private final CheckedBuildConfig buildConfigRequest;
 
-    private CheckedUser userRequest;
-    private CheckedProject projectRequest;
-    private CheckedBuildConfig buildConfigRequest;
-    public CheckedRequests(RequestSpecification spec){
+    public CheckedRequests(RequestSpecification spec) {
         this.userRequest = new CheckedUser(spec);
         this.buildConfigRequest = new CheckedBuildConfig(spec);
         this.projectRequest = new CheckedProject(spec);

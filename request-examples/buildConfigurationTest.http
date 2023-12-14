@@ -16,6 +16,7 @@ X-TC-CSRF-Token:dafba980-a13e-4009-8f5f-d9bb29e9b991
   "id": "id",
   "copyAllAssociatedSettings": true
 }
+
 ###2. Create build configuration
 POST http://192.168.0.17:8111/app/rest/buildTypes
 Content-Type: application/json
@@ -53,6 +54,7 @@ X-TC-CSRF-Token: 7566ac80-f847-4dca-b497-be55acd4dd15
     ]
   }
 }
+
 ###3. Run build
 POST http://192.168.0.17:8111/app/rest/buildQueue
 Content-Type: application/json
@@ -64,6 +66,7 @@ X-TC-CSRF-Token:7566ac80-f847-4dca-b497-be55acd4dd15
     "id": "id"
   }
 }
+
 ###3. Check build status
 GET http://admin:admin@192.168.0.17:8111/app/rest/builds/id:106
 Content-Type: application/json

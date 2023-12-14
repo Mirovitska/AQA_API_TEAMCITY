@@ -9,12 +9,12 @@ public class BaseTest {
     protected SoftAssertions softy;
 
     @BeforeMethod
-    public void beforeTest(){
+    public void beforeTest() {
         softy = new SoftAssertions();
     }
 
     @AfterMethod
-    public void afterTest(){
+    public void afterTest() {
         softy.assertAll();
     }
 }
