@@ -7,11 +7,7 @@ import com.example.teamcity.api.models.User;
 import com.example.teamcity.api.requests.checked.CheckedUser;
 import com.example.teamcity.api.specification.Specifications;
 import com.example.teamcity.ui.pages.LoginPage;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.BeforeSuite;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class BaseUiTest extends BaseTest {
@@ -26,7 +22,8 @@ public class BaseUiTest extends BaseTest {
 
         BrowserSettings.setup(Config.getProperty("browser"));
     }
-    public void loginAsUser(User user){
+
+    public void loginAsUser(User user) {
         new CheckedUser(Specifications.getSpec().superUserSpec()).create(user);
         new LoginPage().open().login(user);
     }
