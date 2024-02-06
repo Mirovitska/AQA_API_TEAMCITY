@@ -27,7 +27,6 @@ jobs:
 
       - name: Pull Selenoid Firefox
         run: docker pull selenoid/vnc_firefox:120.0
-
       - name: Run Selenoid
         # Флаг -d запускает контейнер в фоновом режиме (так как, например, контейнер с сервером не имеет окончания, он просто всегда включен,
         # и если мы без этого флага в него перейдем, то никогда не сможем перешагнуть к следующему степу
@@ -66,8 +65,6 @@ jobs:
       - name: Set up superUserToken environment variable
         # Берем из лога контейнера строку с последним упоминанием токена, из нее 6-е слово, что соответствует токену
         run: echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
-
-
       - name: Set up superUserToken config property
         run: echo "superUserToken=$SUPER_USER_TOKEN" >> src/main/resources/config.properties
 
@@ -85,3 +82,46 @@ jobs:
       - name: Run tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -Dgroups=Regression
+
+      # Следующие 3 степа на сохранение Allure репортов с историей и публикацию их в GitHub Pages.
+      # Необходимо ознакомиться с документацией: https://allurereport.org/docs/integrations-github/,
+      # так как есть степы, которые необходимо выполнить вручную в настройках репозитория, чтобы публикация работала корректно.
+      # Рекомендованные степы для создания пустой ветки gh-pages, используемой для публикации репортов: https://gist.github.com/ramnathv/2227408?permalink_comment_id=2915143#gistcomment-2915143
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: target/allure-results
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: $
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+      # Создание репорта с покрытием API тестов, основанного на Swagger. Документация: https://github.com/viclovsky/swagger-coverage
+      - name: Run Swagger coverage
+        if: always()
+        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
+
+      # Swagger coverage репорт сохраняется в артефакты GitHub Actions прогона
+      - name: Save Swagger coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: swagger-coverage
+          path: |
+            swagger-coverage-report.html
+            swagger-coverage-results.json
