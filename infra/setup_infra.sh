@@ -51,7 +51,7 @@ echo "Start selenoid"
 
 cd .. && cd $selenoid_workdir
 mkdir config
-cp $teamcity_tests_directory/infra/brosers.json config/
+cp $teamcity_tests_directory/infra/browsers.json config/
 
 docker run -d                                   \
             --name $selenoid_container_name                                 \
@@ -71,14 +71,14 @@ done
 ################################
 echo "Start selenoid-ui"
 
-docker run -d--name $selenoid_ui_container_name                                 \
+docker run -d --name $selenoid_ui_container_name                                 \
             -p 80:8080 aerokube/selenoid-ui:latest-release --selenoid-uri "http://$ip:4444"
 
 ################################
 echo "Setup teamcity server"
 
-cd .. && cd ..
-./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
+cd ..
+mvn clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
 
 ################################
 echo "Parse superuser token"
@@ -89,7 +89,7 @@ echo "Super user token: $superuser_token"
 ################################
 echo "Run system tests"
 
-cd .. && cd .. && cd ..
+cd .. && cd ..
 
 echo "host=$ip:8111\nsuperUserToken=$superuser_token\nremote=true" > $teamcity_tests_directory/src/main/resources/config.properties
 cat $teamcity_tests_directory/src/main/resources/config.properties

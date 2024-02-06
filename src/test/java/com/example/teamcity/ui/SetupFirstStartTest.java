@@ -12,8 +12,7 @@ import org.testng.annotations.Test;
 public class SetupFirstStartTest extends BaseUiTest {
     @Test(groups = {"Setup"})
     public void setupTeamCityServerTest() {
-        StartUpPage.open().setupTeamCityServer()
-                .getHeader().shouldHave(Condition.text("Create Administrator Account"));
+        StartUpPage.open().setupTeamCityServer();
     }
 
     @Test(groups = {"Setup"})

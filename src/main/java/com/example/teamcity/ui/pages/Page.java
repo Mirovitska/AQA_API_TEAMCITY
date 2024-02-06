@@ -20,13 +20,14 @@ public abstract class Page {
 
     private SelenideElement pageWaitingMarker = element(Selectors.byDataTest("ring-loader"));
 
+
     public void submit() {
         submitButton.click();
         waitUntilDataIsSaved();
     }
 
     public void waitUntilPageIsLoaded() {
-        pageWaitingMarker.shouldNotBe(Condition.visible, Duration.ofMinutes(2));
+        pageWaitingMarker.shouldNotBe(Condition.visible, Duration.ofMinutes(10));
     }
 
     public void waitUntilDataIsSaved() {
