@@ -30,7 +30,7 @@ jobs:
           cat src/main/resources/config.properties
 
       - name: Pull Selenoid Chrome/Firefox/..
-        run: docker pull selenoid/vnc_chrome:119.0
+        run: docker pull selenoid/vnc_firefox:120.0
 
       - name: Run Selenoid
         # Флаг -d запускает контейнер в фоновом режиме (так как, например, контейнер с сервером не имеет окончания, он просто всегда включен,

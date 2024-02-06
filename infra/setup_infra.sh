@@ -77,7 +77,8 @@ docker run -d --name $selenoid_ui_container_name                                
 ################################
 echo "Setup teamcity server"
 
-cd ..
+cd .. && cd ..
+
 mvn clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
 
 ################################
@@ -89,11 +90,15 @@ echo "Super user token: $superuser_token"
 ################################
 echo "Run system tests"
 
-cd .. && cd ..
+config=$teamcity_tests_directory/src/main/resources/config.properties
 
-echo "host=$ip:8111\nsuperUserToken=$superuser_token\nremote=true" > $teamcity_tests_directory/src/main/resources/config.properties
-cat $teamcity_tests_directory/src/main/resources/config.properties
+echo "host=$ip:8111" > $config
+echo "superUserToken=$superuser_token" >> $config
+echo "remote=http://$ip:4444/wd/hub" >> $config
+echo "browser=firefox" >> $config
+cat $config
 
+################################
 echo "Run API tests"
 
 mvn test -DsuiteXmlFile=testng-suites/api-suite.xml
