@@ -12,14 +12,14 @@ import static com.codeborne.selenide.Selenide.element;
 
 @Getter
 public class StartUpPage extends Page {
-    private SelenideElement acceptLicence = $("#accept");
-    ;
-    private SelenideElement proceedButton = $("#proceedButton");
-    private SelenideElement submitButton = element("input[id='submit']");
-    private SelenideElement restoreFromBackupButton = $("#restoreButton");
+    private final SelenideElement acceptLicence = $("#accept");
 
-    private SelenideElement header = element("input[id='header']");
-    private SelenideElement backFileUploaded = element("input[name='backupFile']");
+    private final SelenideElement proceedButton = $("#proceedButton");
+    private final SelenideElement submitButton = element("input[id='submit']");
+    private final SelenideElement restoreFromBackupButton = $("#restoreButton");
+
+    private final SelenideElement header = element("input[id='header']");
+    private final SelenideElement backFileUploaded = element("input[name='backupFile']");
 
     public static StartUpPage open() {
         return Selenide.open("/", StartUpPage.class);
