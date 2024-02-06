@@ -22,7 +22,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
 
     //positive
 
-    @Test
+    @Test(description = "Create build configuration with typical data, steps, and templates", groups = {"Regression"})
     public void createBuildConfigurationWithTypicalDataWithStepsAndTemplates() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -37,7 +37,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .then().assertThat().statusCode(HttpStatus.SC_OK);
     }
 
-    @Test
+    @Test(description = "Create build configuration without template and steps", groups = {"Regression"})
     public void createBuildConfigurationWithoutTemplateAndSteps() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -53,7 +53,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .create(buildConfig);
     }
 
-    @Test
+    @Test(description = "Create build configuration with templates but without steps", groups = {"Regression"})
     public void createBuildConfigurationWithTemplatesButWithoutSteps() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -70,7 +70,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .create(buildConfig);
     }
 
-    @Test
+    @Test(description = "Create build configuration with project viewer role", groups = {"Regression"})
     public void createBuildConfigurationWithProjectViewerRole() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -87,7 +87,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .create(buildConfig);
     }
 
-    @Test
+    @Test(description = "Create build configuration with empty properties", groups = {"Regression"})
     public void createBuildConfigurationWithEmptyProperties() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -108,7 +108,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .create(buildConfig);
     }
 
-    @Test
+    @Test(description = "Create build configuration with long name and type", groups = {"Regression"})
     public void createBuildConfigurationWithLongNameAndType() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -130,7 +130,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
     }
 
     //negative
-    @Test()
+    @Test(description = "Attempt to create duplicate build configuration", groups = {"Regression"})
     public void attemptToCreateDuplicateBuildConfiguration() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -157,7 +157,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .create(duplicateBuildConfig).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test()
+    @Test(description = "Attempt to create build configuration with empty name", groups = {"Regression"})
     public void attemptToCreateBuildConfigurationWithEmptyName() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -174,7 +174,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .create(buildConfig).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test()
+    @Test(description = "Attempt to create build configuration without project", groups = {"Regression"})
     public void attemptToCreateBuildConfigurationWithoutProject() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -189,7 +189,7 @@ public class CreateBuildConfigurationTest extends BaseApiTest {
                 .create(buildConfig).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test()
+    @Test(description = "Attempt to create build configuration with invalid project", groups = {"Regression"})
     public void attemptToCreateBuildConfigurationWithInvalidProject() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());

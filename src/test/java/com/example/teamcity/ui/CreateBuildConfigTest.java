@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 public class CreateBuildConfigTest extends BaseUiTest {
 
-    @Test
+    @Test(description = "User should be able to create build type", groups = {"Regression"})
     public void authorizedUserShouldBeAbleCreateBuildConfig() {
         var testData = testDataStorage.addTestData();
         var url = "https://github.com/Mirovitska/Bakery";
@@ -32,7 +32,7 @@ public class CreateBuildConfigTest extends BaseUiTest {
     }
 
     //negative
-    @Test
+    @Test(description = "User should see error for invalid project URL", groups = {"Regression"})
     public void authorizedUserShouldSeeErrorForInvalidProjectURL() {
         var testData = testDataStorage.addTestData();
         var incorrectUrl = "https://github.com/Mirovitska/Bakery123455";
