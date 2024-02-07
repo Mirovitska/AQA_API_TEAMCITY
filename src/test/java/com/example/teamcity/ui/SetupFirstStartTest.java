@@ -10,12 +10,12 @@ import com.example.teamcity.ui.pages.StartUpPage;
 import org.testng.annotations.Test;
 
 public class SetupFirstStartTest extends BaseUiTest {
-    @Test()
+    @Test
     public void setupTeamCityServerTest() {
         StartUpPage.open().setupTeamCityServer();
     }
 
-    @Test()
+    @Test
     public void setupTeamCityAgentTest(User user) {
         new CheckedUser(Specifications.getSpec().superUserSpec()).create(user);
         new LoginPage().open().login(user);
