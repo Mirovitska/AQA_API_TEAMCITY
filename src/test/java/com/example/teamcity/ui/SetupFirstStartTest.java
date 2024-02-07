@@ -16,9 +16,9 @@ public class SetupFirstStartTest extends BaseUiTest {
     }
 
     @Test
-    public void setupTeamCityAgentTest(User user) {
-        new CheckedUser(Specifications.getSpec().superUserSpec()).create(user);
-        new LoginPage().open().login(user);
+    public void setupTeamCityAgentTest() {
+        var testData = testDataStorage.addTestData();
+        loginAsUser(testData.getUser());
         AgentPage.open().authorizeAgent();
     }
 }
