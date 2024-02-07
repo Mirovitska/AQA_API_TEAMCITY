@@ -53,12 +53,14 @@ jobs:
         # Указываем конкретную версию для сервера и агента, так как мало ли, в новой версии могут поменяться используемые локаторы,
         # чтобы в рамках этого задания не тратить время на фикс подобных проблем.
         run: |
-          docker run -u 0 --name teamcity-server \
+          docker run -u 0 -d --name teamcity-server \
           -v $(pwd)/tmp/teamcity_server/datadir:/data/teamcity_server/datadir \
           -v $(pwd)/tmp/teamcity_server/logs:/opt/teamcity/logs \
           -p 8111:8111 \
           jetbrains/teamcity-server:2023.11.1
 
+      - name: Set up Teamcity Server
+        run: cat src/main/resources/config.properties
       - name: Set up TeamCity server
         # Настройка сервера при первом запуске (принятие лицензии, выбор базы данных и т.д.), реализованная в виде теста
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
