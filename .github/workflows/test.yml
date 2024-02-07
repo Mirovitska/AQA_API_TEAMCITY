@@ -53,7 +53,7 @@ jobs:
         # Указываем конкретную версию для сервера и агента, так как мало ли, в новой версии могут поменяться используемые локаторы,
         # чтобы в рамках этого задания не тратить время на фикс подобных проблем.
         run: |
-          docker run -u 0 -d --name teamcity-server \
+          docker run -u 0 --name teamcity-server \
           -v $(pwd)/tmp/teamcity_server/datadir:/data/teamcity_server/datadir \
           -v $(pwd)/tmp/teamcity_server/logs:/opt/teamcity/logs \
           -p 8111:8111 \
