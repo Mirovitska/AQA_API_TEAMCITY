@@ -25,4 +25,5 @@ public class BaseUiTest extends BaseTest {
         new LoginPage().open().login(user);
     }
 
+
 }
