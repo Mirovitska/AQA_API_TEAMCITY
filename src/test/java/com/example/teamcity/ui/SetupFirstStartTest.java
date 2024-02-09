@@ -1,11 +1,6 @@
 package com.example.teamcity.ui;
 
-import com.codeborne.selenide.Condition;
-import com.example.teamcity.api.models.User;
-import com.example.teamcity.api.requests.checked.CheckedUser;
-import com.example.teamcity.api.specification.Specifications;
 import com.example.teamcity.ui.pages.AgentPage;
-import com.example.teamcity.ui.pages.LoginPage;
 import com.example.teamcity.ui.pages.StartUpPage;
 import org.testng.annotations.Test;
 
@@ -21,4 +16,5 @@ public class SetupFirstStartTest extends BaseUiTest {
         loginAsUser(testData.getUser());
         AgentPage.open().authorizeAgent();
     }
+
 }

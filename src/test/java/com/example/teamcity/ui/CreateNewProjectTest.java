@@ -43,6 +43,6 @@ public class CreateNewProjectTest extends BaseUiTest {
                 .checkError();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .get(testData.getProject().getId()).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                .get(testData.getProject().getId()).then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }
