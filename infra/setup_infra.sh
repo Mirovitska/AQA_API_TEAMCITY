@@ -99,6 +99,13 @@ echo "browser=firefox" >> $config
 cat $config
 
 ################################
+echo "Run Teamcity agent"
+
+          docker run -e SERVER_URL=http://$ip:8111 -u 0 -d --name teamcity-agent \
+          -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
+          jetbrains/teamcity-agent:2023.11.1
+
+################################
 echo "Run API tests"
 
 mvn test -DsuiteXmlFile=testng-suites/api-suite.xml
