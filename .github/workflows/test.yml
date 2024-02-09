@@ -59,6 +59,13 @@ jobs:
           -p 8111:8111 \
           jetbrains/teamcity-server:2023.11.1
 
+      - name: Run TeamCity agent
+        run: |
+          docker run -e SERVER_URL=http://$HOST:8111 -u 0 -d --name teamcity-agent \
+          -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
+          jetbrains/teamcity-agent:2023.11.1
+      
+
       - name: Set up TeamCity server
         # Настройка сервера при первом запуске (принятие лицензии, выбор базы данных и т.д.), реализованная в виде теста
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
@@ -66,14 +73,9 @@ jobs:
       - name: Set up superUserToken environment variable
         # Берем из лога контейнера строку с последним упоминанием токена, из нее 6-е слово, что соответствует токену
         run: echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
-      - name: Set up superUserToken config property
-        run: echo "superUserToken=$SUPER_USER_TOKEN" >> src/main/resources/config.properties
 
-      - name: Run TeamCity agent
-        run: |
-          docker run -e SERVER_URL=http://$HOST:8111 -u 0 -d --name teamcity-agent \
-          -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
-          jetbrains/teamcity-agent:2023.11.1
+      - name: Set up superUserToken to config.properties
+        run: printf "\nhost=$HOST:8111\nbrowser=firefox\nremote=http://$HOST:4444/wd/hub\nsuperUserToken=$SUPER_USER_TOKEN" > src/main/resources/config.properties
 
       - name: Set up TeamCity agent
         # Авторизация агента при первом запуске, реализованная в виде теста
