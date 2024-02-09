@@ -17,16 +17,17 @@ jobs:
       - name: Install ifconfig
         run: sudo apt-get update && sudo apt-get install -y net-tools
 
-      - name: Set up host environment variable
-        # Команда для определения ip адреса для обращения из другого контейнера, рекомендуется в документации Selenoid UI: https://aerokube.com/selenoid-ui/latest/
+      - name: Set up host environment variables
+          # Команда для определения ip адреса для обращения из другого контейнера, рекомендуется в документации Selenoid UI: https://aerokube.com/selenoid-ui/latest/
         run: |
-          echo "HOST=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)" >> $GITHUB_ENV
-      # Храним переменные как в переменных среды ($GITHUB_ENV), для использования внутри этого yml файла, так и в config.properties, для использования в тестах
-      - name: Setup config browsers
-        run: echo -e "browser=firefox\nremote=http://localhost:4444/wd/hub" >> src/main/resources/config.properties
+            echo "HOST=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)" >> $GITHUB_ENV
+            # Храним переменные как в переменных среды ($GITHUB_ENV), для использования внутри этого yaml файла, так и в config.properties, для использования в тестах
+
+      - name: Setup host config.properties
+        run: echo "host=$HOST:8111" > src/main/resources/config.properties
 
       - name: Pull Selenoid Firefox
-        run: docker pull selenoid/vnc_firefox:120.0
+        run: docker pull selenoid/vnc:firefox_120.0
 
       - name: Run Selenoid
         # Флаг -d запускает контейнер в фоновом режиме (так как, например, контейнер с сервером не имеет окончания, он просто всегда включен,
@@ -34,9 +35,11 @@ jobs:
         run: |
           docker run -d --name selenoid \
           -v /var/run/docker.sock:/var/run/docker.sock \
-          -v $(pwd)/config/:/etc/selenoid/:ro \
+          -v $(pwd)/infra/:/etc/selenoid/:ro \
           -p 4444:4444 \
           aerokube/selenoid
+      - name: Setup config browsers
+        run: echo -e "browser=firefox\nremote=http://localhost:4444/wd/hub" >> src/main/resources/config.properties
 
       # В этом степе нет смысла, так как через GitHub Actions нет доступа к Selenoid UI. Но зато это полезно при локальном запуске через act, для отладки
       - name: Run Selenoid UI
