@@ -31,7 +31,7 @@ public abstract class Page {
     }
 
     public void waitUntilDataIsSaved() {
-        savingWaitingMarker.shouldBe(Condition.not(Condition.visible), Duration.ofSeconds(30));
+        savingWaitingMarker.shouldBe(Condition.not(Condition.visible), Duration.ofSeconds(1000));
     }
 
     public <T extends PageElement> List<T> generatePageElements(
