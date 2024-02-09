@@ -16,5 +16,4 @@ public class SetupFirstStartTest extends BaseUiTest {
         loginAsUser(testData.getUser());
         AgentPage.open().authorizeAgent();
     }
-
 }

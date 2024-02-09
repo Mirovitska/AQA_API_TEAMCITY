@@ -4,6 +4,8 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import lombok.Getter;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -14,14 +16,14 @@ public class AgentPage extends Page {
     private final SelenideElement authorizeButtonOnModal = $x("//button[contains(@class, 'CommonForm__button--Nb')]");
 
 
-    public AgentPage authorizeAgent() {
+    public void authorizeAgent() {
         authorizeButton.click();
-        waitUntilPageIsLoaded();
-        authorizeButtonOnModal.shouldBe(visible).click();
-        return this;
+        authorizeButtonOnModal.shouldBe(visible, Duration.ofMinutes(3)).click();
     }
 
     public static AgentPage open() {
         return Selenide.open("/agents/unauthorized", AgentPage.class);
     }
+
+
 }
