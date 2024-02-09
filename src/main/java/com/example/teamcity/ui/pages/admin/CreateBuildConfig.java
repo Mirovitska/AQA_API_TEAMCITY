@@ -11,8 +11,6 @@ public class CreateBuildConfig extends Page {
     private SelenideElement urlInput = element(Selectors.byId("url"));
     private SelenideElement usernameInput = element(Selectors.byId("username"));
     private SelenideElement passwordInput = element(Selectors.byId("password"));
-
-
     private SelenideElement error = element(Selectors.byId("errorExternalId"));
     public CreateBuildConfig open(String parentProjectId){
         Selenide.open("/admin/createObjectMenu.html?projectId="+parentProjectId+"&showMode=createBuildTypeMenu");
