@@ -59,8 +59,6 @@ jobs:
           -p 8111:8111 \
           jetbrains/teamcity-server:2023.11.1
 
-      - name: Set up Teamcity Server
-        run: cat src/main/resources/config.properties
       - name: Set up TeamCity server
         # Настройка сервера при первом запуске (принятие лицензии, выбор базы данных и т.д.), реализованная в виде теста
         run: ./mvnw clean test -Dtest=SetupFirstStartTest#setupTeamCityServerTest
