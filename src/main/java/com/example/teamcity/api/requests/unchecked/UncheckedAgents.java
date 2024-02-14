@@ -1,6 +1,5 @@
 package com.example.teamcity.api.requests.unchecked;
 
-import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -18,7 +17,12 @@ public class UncheckedAgents extends Request {
         return given().spec(spec)
                 .get(AGENTS_ENDPOINT + "?locator=enabled:true,authorized:false");
     }
-    public Response updateAgentAuthorization(String name){
+    public Response getAllAuthorizedAgents(){
+        return given().spec(spec)
+                .get(AGENTS_ENDPOINT + "?locator=connected:true,authorized:true");
+    }
+
+    public Response updateAgentStatus(String name){
         return given().spec(spec)
                 .contentType("text/plain")
                 .accept("text/plain")
