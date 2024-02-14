@@ -83,7 +83,7 @@ jobs:
       - name: Set up TeamCity agent
         # Авторизация агента при первом запуске, реализованная в виде теста
         # Не указываем clean, чтобы потом в итоговом репорте были и setup тесты
-        run: ./mvnw test -Dtest=SetupFirstStartTest#setupTeamCityAgentTest
+        run: ./mvnw test -Dtest=SetupFirstStartTest#setupTeamCityAgentTestAPI
 
 
       - name: Run tests
