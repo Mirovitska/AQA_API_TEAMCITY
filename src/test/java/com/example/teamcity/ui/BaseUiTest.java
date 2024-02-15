@@ -13,19 +13,17 @@ import org.testng.annotations.BeforeSuite;
 public class BaseUiTest extends BaseTest {
     @BeforeSuite
     public void setupUiTests() {
-
         Configuration.baseUrl = "http://" + Config.getProperty("host");
         Configuration.remote = Config.getProperty("remote");
-
+        Configuration.browser = Config.getProperty("browser");
         Configuration.reportsFolder = "target/surefire-reports";
         Configuration.downloadsFolder = "target/downloads";
-
-        BrowserSettings.setup(Config.getProperty("browser"));
     }
 
     public void loginAsUser(User user) {
         new CheckedUser(Specifications.getSpec().superUserSpec()).create(user);
         new LoginPage().open().login(user);
     }
+
 
 }

@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class BuildConfigurationTest extends BaseApiTest{
 
 
-    @Test
+    @Test(description = "Build configuration test", groups = {"Regression"})
     public void buildConfigurationTest(){
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());

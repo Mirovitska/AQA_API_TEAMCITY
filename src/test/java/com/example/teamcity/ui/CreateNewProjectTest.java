@@ -9,7 +9,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 public class CreateNewProjectTest extends BaseUiTest {
-    @Test
+    @Test(description = "Autorized user should be able create new project", groups = {"Regression"})
     public void authorizedUserShouldBeAbleCreateNewProject() {
 
         var testData = testDataStorage.addTestData();
@@ -31,8 +31,7 @@ public class CreateNewProjectTest extends BaseUiTest {
     }
 
     //negative
-    @Test
-
+    @Test(description = "Authorized user should see error for invalid project URL", groups = {"Regression"})
     public void authorizedUserShouldSeeErrorForInvalidProjectURL() {
         var testData = testDataStorage.addTestData();
         var incorrectUrl = "https://github.com/Mirovitska/Bakery123455";
@@ -44,6 +43,6 @@ public class CreateNewProjectTest extends BaseUiTest {
                 .checkError();
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .get(testData.getProject().getId()).then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                .get(testData.getProject().getId()).then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }
