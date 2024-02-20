@@ -1,9 +1,23 @@
+
 name: TeamCity Test
 
-on: push
+on: [push, pull_request]
 
 jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Run Checkstyle
+        run: mvn validate -Dcheckstyle.failOnViolation=true
+
   run_teamcity_test:
+    needs: checkstyle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
