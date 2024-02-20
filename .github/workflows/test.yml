@@ -87,7 +87,7 @@ jobs:
 
       - name: Run tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
-        run: ./mvnw test -Dgroups=Regression
+        run: ./mvnw test -Dtest='com.example.teamcity.api.**' -Dgroups=Regression
 
       - name: Load test report history
         uses: actions/checkout@v4
@@ -103,7 +103,7 @@ jobs:
         with:
           gh_pages: gh-pages
           allure_history: allure-history
-          allure_results: build/allure-results
+          allure_results: target/allure-results
 
 
       - name: Publish test report
