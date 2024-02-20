@@ -15,13 +15,14 @@
         <maven.compiler.source>17</maven.compiler.source>
         <aspectj.version>1.9.19</aspectj.version>
         <allure.version>2.24.0</allure.version>
-        <rest-assured.version>5.3.2</rest-assured.version>
+        <rest-assured.version>5.4.0</rest-assured.version>
         <lombok.version>1.18.30</lombok.version>
-        <jackson-annotations.version>2.15.2</jackson-annotations.version>
+        <jackson-annotations.version>2.16.0</jackson-annotations.version>
         <google-gson.version>2.10.1</google-gson.version>
         <assertj-core.version>3.24.0</assertj-core.version>
         <selenide.version>7.0.2</selenide.version>
         <awaitility.version>4.2.0</awaitility.version>
+        <swagger-coverage-rest-assured.version>1.5.0</swagger-coverage-rest-assured.version>
 
     </properties>
 
@@ -50,10 +51,40 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-assertj</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.7.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.viclovsky</groupId>
+            <artifactId>swagger-coverage-rest-assured</artifactId>
+            <version>${swagger-coverage-rest-assured.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -72,11 +103,7 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-annotations.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
