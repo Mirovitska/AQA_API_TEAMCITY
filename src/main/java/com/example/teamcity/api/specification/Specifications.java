@@ -26,17 +26,14 @@ public class Specifications {
     }
 
     private RequestSpecBuilder reqBuilder(){
-        var requestBuilder = new RequestSpecBuilder()
-                .addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured(),
-                        new SwaggerCoverageRestAssured(new FileSystemOutputWriter(Paths.get("target/" + OUTPUT_DIRECTORY)))))
-                .setContentType(ContentType.JSON)
-                .setAccept(ContentType.JSON);
+        var requestBuilder = new RequestSpecBuilder();
         requestBuilder.setBaseUri("http://" + Config.getProperty( "host"));
         requestBuilder.addFilter(new RequestLoggingFilter());
         requestBuilder.addFilter(new ResponseLoggingFilter());
         requestBuilder.setContentType(ContentType.JSON);
         requestBuilder.setAccept(ContentType.JSON);
-
+        requestBuilder.addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured(),
+                new SwaggerCoverageRestAssured(new FileSystemOutputWriter(Paths.get("target/" + OUTPUT_DIRECTORY)))));
         return requestBuilder;
     }
     public RequestSpecification unauthSpec(){
