@@ -67,7 +67,7 @@ public class CreateProjectTest extends BaseApiTest {
     }
 
 
-    @Test(description = "Create project with minimum ID length")
+    @Test(description = "Create project with minimum ID length", groups = {"Regression"})
     public void createProjectWithMinIdLength() {
         var testData = testDataStorage.addTestData();
         checkedWithSuperUser.getUserRequest().create(testData.getUser());
@@ -140,7 +140,7 @@ public class CreateProjectTest extends BaseApiTest {
 
     }
 
-    @Test(description = "Create project with name that already exists")
+    @Test(description = "Create project with name that already exists", groups = {"Regression"})
     public void createProjectWithNameWhatAlreadyExist() {
         var testData = testDataStorage.addTestData();
         var firstProject = Project.builder()
@@ -214,7 +214,7 @@ public class CreateProjectTest extends BaseApiTest {
                 .create(proj).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test(description = "Create project with already existing ID")
+    @Test(description = "Create project with already existing ID", groups = {"Regression"})
     public void createProjectWithAlreadyExistingId() {
         var testData = testDataStorage.addTestData();
         var firstProject = Project.builder()
