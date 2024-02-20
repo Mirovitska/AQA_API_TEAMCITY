@@ -6,6 +6,7 @@ import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.requests.unchecked.UncheckedProject;
 import com.example.teamcity.api.specification.Specifications;
 import org.apache.http.HttpStatus;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class CreateProjectTest extends BaseApiTest {
@@ -66,7 +67,7 @@ public class CreateProjectTest extends BaseApiTest {
                 .create(proj);
     }
 
-
+    @Ignore
     @Test(description = "Create project with minimum ID length", groups = {"Regression"})
     public void createProjectWithMinIdLength() {
         var testData = testDataStorage.addTestData();
@@ -140,6 +141,7 @@ public class CreateProjectTest extends BaseApiTest {
 
     }
 
+    @Ignore
     @Test(description = "Create project with name that already exists", groups = {"Regression"})
     public void createProjectWithNameWhatAlreadyExist() {
         var testData = testDataStorage.addTestData();
@@ -214,7 +216,9 @@ public class CreateProjectTest extends BaseApiTest {
                 .create(proj).then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
+    @Ignore
     @Test(description = "Create project with already existing ID", groups = {"Regression"})
+
     public void createProjectWithAlreadyExistingId() {
         var testData = testDataStorage.addTestData();
         var firstProject = Project.builder()

@@ -48,10 +48,5 @@ public class CreateBuildConfigTest extends BaseUiTest {
                 .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 
-    @Test
-    public void test() {
-        var testData = testDataStorage.addTestData();
-        loginAsUser(testData.getUser());
-    }
 
 }
