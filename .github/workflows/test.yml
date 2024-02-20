@@ -90,7 +90,7 @@ jobs:
         run: ./mvnw test -Dgroups=Regression
 
       - name: Load test report history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         if: always()
         continue-on-error: true
         with:
@@ -110,6 +110,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: $
           publish_branch: gh-pages
           publish_dir: allure-history

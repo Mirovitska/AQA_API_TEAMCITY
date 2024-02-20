@@ -9,7 +9,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 public class CreateNewProjectTest extends BaseUiTest {
-    @Test(description = "Autorized user should be able create new project", groups = {"Regression"})
+    @Test(description = "Autorized user should be able create new project", groups = {"RegressionUI"})
     public void authorizedUserShouldBeAbleCreateNewProject() {
 
         var testData = testDataStorage.addTestData();
@@ -31,7 +31,7 @@ public class CreateNewProjectTest extends BaseUiTest {
     }
 
     //negative
-    @Test(description = "Authorized user should see error for invalid project URL", groups = {"Regression"})
+    @Test(description = "Authorized user should see error for invalid project URL", groups = {"RegressionUI"})
     public void authorizedUserShouldSeeErrorForInvalidProjectURL() {
         var testData = testDataStorage.addTestData();
         var incorrectUrl = "https://github.com/Mirovitska/Bakery123455";
