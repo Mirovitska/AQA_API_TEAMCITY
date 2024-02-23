@@ -11,11 +11,11 @@ import org.testng.annotations.BeforeMethod;
 public class BaseTest {
 
     protected SoftAssertions softy;
+    public TestDataStorage testDataStorage;
 
     public CheckedRequests checkedWithSuperUser = new CheckedRequests(Specifications.getSpec().superUserSpec());
     public UncheckedRequests uncheckedWithSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
 
-    public TestDataStorage testDataStorage;
     @BeforeMethod
     public void beforeTest(){
         softy = new SoftAssertions();

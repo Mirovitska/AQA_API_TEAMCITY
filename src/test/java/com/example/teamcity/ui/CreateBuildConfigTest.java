@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 public class CreateBuildConfigTest extends BaseUiTest {
 
-    @Test(description = "User should be able to create build type", groups = {"Regression"})
+    @Test(description = "User should be able to create build type", groups = {"RegressionUI"})
     public void authorizedUserShouldBeAbleCreateBuildConfig() {
         var testData = testDataStorage.addTestData();
         var url = "https://github.com/Mirovitska/Bakery";
@@ -32,7 +32,7 @@ public class CreateBuildConfigTest extends BaseUiTest {
     }
 
     //negative
-    @Test(description = "User should see error for invalid project URL", groups = {"Regression"})
+    @Test(description = "User should see error for invalid project URL", groups = {"RegressionUI"})
     public void authorizedUserShouldSeeErrorForInvalidProjectURL() {
         var testData = testDataStorage.addTestData();
         var incorrectUrl = "https://github.com/Mirovitska/Bakery123455";
@@ -48,10 +48,5 @@ public class CreateBuildConfigTest extends BaseUiTest {
                 .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 
-    @Test
-    public void test() {
-        var testData = testDataStorage.addTestData();
-        loginAsUser(testData.getUser());
-    }
 
 }

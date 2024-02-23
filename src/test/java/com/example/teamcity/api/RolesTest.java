@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 public class RolesTest extends BaseApiTest {
 
-    @Test(description = "Unauthorized user should not have right to create project", groups = {"Regression"})
+    @Test(description = "Unauthorized user should not have right to create project")
     public void unautorizedUserShouldNotHaveRightToCreateProject() {
 
         //generate test data
@@ -75,7 +75,7 @@ public class RolesTest extends BaseApiTest {
         softy.assertThat(buildConfig.getId()).isEqualTo(testData.getBuildType().getId());
     }
 
-    @Test(description = "Project admin should not have rights to create build config to another project test", groups = {"Regression"})
+    @Test(description = "Project admin should not have rights to create build config to another project test")
     public void projectAdminShouldNotHaveRightsToCreateBuildConfigToAnotherProjectTest() {
         //generate 2 test data
         var firstTestData = testDataStorage.addTestData();

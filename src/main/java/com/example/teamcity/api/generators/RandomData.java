@@ -6,7 +6,6 @@ public class RandomData {
 
     private static final int LENGTH = 20;
 
-
     public static String getString() {
         return "am_" + RandomStringUtils.randomAlphabetic(LENGTH);
     }
