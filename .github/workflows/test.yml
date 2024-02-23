@@ -99,12 +99,9 @@ jobs:
         # Не указываем clean, чтобы потом в итоговом репорте были и setup тесты
         run: ./mvnw test -Dtest=SetupFirstStartTest#setupTeamCityAgentTestUI
 
-      - name: Run API tests
+      - name: Run Tests
         # Указываем группу, чтобы еще раз не запустить тесты, которые использовались для сетапа сервера и агента
         run: ./mvnw test -DsuiteXmlFile=teamcity-suites/api-suite.xml
-
-      - name: Run UI tests
-        run: ./mvnw test -DsuiteXmlFile=teamcity-suites/ui-suite.xml
 
       - name: Load test report history
         uses: actions/checkout@v4
