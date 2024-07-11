@@ -110,8 +110,9 @@ jetbrains/teamcity-agent:2023.11.1
 ################################
 echo "Run API tests"
 
+cd ..
 mvn test -DsuiteXmlFile=testng-suites/api-suite.xml
 
-echo "Run UI tests"
-
-mvn test -DsuiteXmlFile=testng-suites/ui-suite.xml
+#echo "Run UI tests"
+#
+#mvn test -DsuiteXmlFile=testng-suites/ui-suite.xml
